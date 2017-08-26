@@ -1,2 +1,2 @@
-//#include "../cspice_linux_gcc_64bit/src/cspice/et2utc.c"
-#include <bzlib.h>
+#include "cspice_linux_gcc_64bit/include/SpiceCK.h"
+#include "cspice_linux_gcc_64bit/include/SpiceZpr.h"
