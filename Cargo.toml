@@ -3,4 +3,7 @@ name = "spice"
 version = "0.1.0"
 authors = ["Christopher Rabotin <christopher.rabotin@gmail.com>"]
 
+[build-dependencies]
+bindgen = "0.26.3"
+
 [dependencies]
