@@ -2,8 +2,13 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+#[allow(unused_macros)]
+#[macro_use]
+macro_rules! c_str {
+    ($string:expr) => {{CString::new($string).unwrap().into_raw()}};
+}
 #[allow(dead_code)]
-mod raw{
+mod raw {
     include!(concat!(env!("OUT_DIR"), "/cspice_bindings.rs"));
 }
 
@@ -16,9 +21,9 @@ mod tests {
         assert_eq!(::raw::SPICETRUE, 1);
         assert_eq!(::raw::SPICEFALSE, 0);
     }
-/*
+    /*
     #[test]
-    // The following tests are from https://github.com/AndrewAnnex/SpiceyPy/blob/master/spiceypy/tests/test_spiceerrors.py
+    // The following tests are from SpiceyPy
     fn errors(){
         let msg = CString::new("some error occured").unwrap();
         println!("msg = {:?}", msg);
@@ -39,10 +44,10 @@ spice.reset()
 
     #[test]
     // TODO: Move this somewhere else, likely in its own kernel.rs file for kernel management
-    fn load_kernel(){
-        let krnl = CString::new("krnl").unwrap();
+    fn load_kernel() {
         unsafe {
-            ::raw::furnsh_c(krnl.into_raw());
+            ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
+            ::raw::furnsh_c(c_str!("krnl"));
         }
     }
 }

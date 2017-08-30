@@ -11,7 +11,7 @@
 #                         |
 #                         |
 #       +------+------+------+------+------+
-#       |      |      |      |      |      | 
+#       |      |      |      |      |      |
 #     data    doc    etc    exe    lib    src
 #                                          |
 #                                          |
@@ -28,20 +28,20 @@
 #         of the library is the same as the name of the product.
 #         The library is placed in the "lib" directory in the tree
 #         above.  The script is then done.
-# 
+#
 #         If there are .pgm files and there were some .c
 #         files compiled the objects are gathered together in the
 #         current directory into a library called locallib.a.
 #
-#     3)  If any *.pgm files exist in the current directory, compile 
+#     3)  If any *.pgm files exist in the current directory, compile
 #         them and add their objects to locallib.a.  Create a C main
 #         program file from the uniform CSPICE main program main.x.
 #         Compile this main program and link its object with locallib.a,
-#         ../../cspice.a and ../../csupport.a. The output 
+#         ../../libcspice.a and ../../libcsupport.a. The output
 #         executables have an empty extension.  The executables are
 #         placed in the "exe" directory in the tree above.
-#         
-#   The environment variable TKCOMPILEOPTIONS containing compile options 
+#
+#   The environment variable TKCOMPILEOPTIONS containing compile options
 #   is optionally set. If it is set prior to executing this script,
 #   those options are used. It it is not set, it is set within this
 #   script as a local variable.
@@ -49,9 +49,9 @@
 #   References:
 #   ===========
 #
-#   "Unix Power Tools", page 11.02 
+#   "Unix Power Tools", page 11.02
 #      Use the "\" character to unalias a command temporarily.
-#        
+#
 #   "A Practical Guide to the Unix System"
 #
 #   "The Unix C Shell Field Guide"
@@ -59,7 +59,7 @@
 #   Change History:
 #   ===============
 #
-#   Version 6.2.0  Nov. 14, 2006  Boris Semenov 
+#   Version 6.2.0  Nov. 14, 2006  Boris Semenov
 #
 #      Added -fPIC compile option.
 #
@@ -70,16 +70,16 @@
 #   Version 6.1.0  October 6, 2005  Boris Semenov
 #
 #      Put -O2 optimization back in because the problem that it caused
-#      was solved in the N0059 toolkit.    
+#      was solved in the N0059 toolkit.
 #
 #   Version 6.0.0  April 20, 2000  Bill Taber
 #
-#      Removed O2 optimization as it caused some loops to 
-#      not terminate.    
+#      Removed O2 optimization as it caused some loops to
+#      not terminate.
 #
 #   Version 5.0.0  Feb. 09, 1999  Nat Bachman
 #
-#      Now uses O2 optimization.      
+#      Now uses O2 optimization.
 #
 #   Version 4.0.0  Nov. 02, 1998  Nat Bachman
 #
@@ -114,8 +114,8 @@ if ( $status == 0 ) then
    echo " "
 
    foreach MAIN ( *.pgm )
-   
-#     
+
+#
 #     Copy the orginal source file for the main program into a regular
 #     source file which will be included in the local library.
 #
@@ -124,7 +124,7 @@ if ( $status == 0 ) then
 #
       set STEM    = $MAIN:r
       set TARGET  = $STEM.px
-      
+
       \cp $MAIN  "$STEM"_main.c
       \cp main.x  $TARGET
 
@@ -146,12 +146,12 @@ else
    echo " "
    echo "      Setting default compiler:"
    echo $TKCOMPILER
-   
+
 endif
 
 
 #
-#  What compile options do we want to use? If they were 
+#  What compile options do we want to use? If they were
 #  set somewhere else, use those values.  The same goes
 #  for link options.
 #
@@ -165,7 +165,7 @@ else
 #
 #     -ansi              Compile source as ANSI C
 #
-#     -DNON_UNIX_STDIO   Don't assume standard Unix stdio.h 
+#     -DNON_UNIX_STDIO   Don't assume standard Unix stdio.h
 #                        implementation
 #
 #
@@ -229,7 +229,7 @@ if ( $status == 0 ) then
    echo "      Inserting objects in the library $LIBRARY ..."
    ar  crv $LIBRARY.a *.o
    ranlib  $LIBRARY.a
-   \rm                *.o    
+   \rm                *.o
    echo " "
 
 endif
@@ -247,38 +247,38 @@ if ( $status == 0 ) then
    echo " "
 
    foreach MAIN ( *.px )
-   
+
       set STEM    = $MAIN:r
       set TARGET  = $STEM.c
       set MAINOBJ = $STEM.o
       set EXECUT = ../../exe/$STEM
-   
+
       cp $MAIN $TARGET
-   
+
       echo "      Compiling and linking: " $MAIN
-      
+
       if ( -e locallib.a ) then
 
          $TKCOMPILER    $TKCOMPILEOPTIONS $TARGET
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
                                           locallib.a           \
-                                          ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
-                                          $TKLINKOPTIONS    
+                                          ../../lib/libcsupport.a \
+                                          ../../lib/libcspice.a   \
+                                          $TKLINKOPTIONS
 
          \rm $TARGET
          \rm $MAINOBJ
-         \rm locallib.a 
+         \rm locallib.a
 
       else
 
-         echo "Compiling and linking: "   $MAIN     
+         echo "Compiling and linking: "   $MAIN
          $TKCOMPILER    $TKCOMPILEOPTIONS $TARGET
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
-                                          ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
+                                          ../../lib/libcsupport.a \
+                                          ../../lib/libcspice.a   \
                                          $TKLINKOPTIONS
- 
+
          \rm $TARGET
          \rm $MAINOBJ
 
@@ -314,5 +314,3 @@ endif
 
 
 exit 0
-
-   
