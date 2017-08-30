@@ -3,6 +3,14 @@ rust:
   - stable
   - beta
   - nightly
+
+before_install:
+  - cd cspice_linux_gcc_64bit && csh makeall.csh
+
 matrix:
   allow_failures:
     - rust: nightly
+
+script:
+  - cargo build --verbose
+  - cargo test --verbose
