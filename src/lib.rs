@@ -21,33 +21,22 @@ mod tests {
         assert_eq!(::raw::SPICETRUE, 1);
         assert_eq!(::raw::SPICEFALSE, 0);
     }
-    /*
-    #[test]
-    // The following tests are from SpiceyPy
-    fn errors(){
-        let msg = CString::new("some error occured").unwrap();
-        println!("msg = {:?}", msg);
-        unsafe{
-            ::raw::sigerr_c(CString::new("error").unwrap().into_raw());
-            println!("yo");
-            println!("{}",::raw::failed_c());
-            assert_eq!(::raw::failed_c(), 1);
-        }
-        /*
-        spice.sigerr("error")
-assert spice.failed()
-assert spice.getmsg("SHORT", 40) == "error"
-assert spice.getmsg("LONG", 200) == "some error occured"
-spice.reset()
-*/
-    }*/
 
     #[test]
-    // TODO: Move this somewhere else, likely in its own kernel.rs file for kernel management
+    fn errors() {
+        unsafe {
+            ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
+            ::raw::sigerr_c(c_str!("some error this is really long"));
+            assert_eq!(::raw::failed_c(), 1);
+        }
+    }
+
+    #[test]
     fn load_kernel() {
         unsafe {
             ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
             ::raw::furnsh_c(c_str!("krnl"));
+            assert_eq!(::raw::failed_c(), 1);
         }
     }
 }
