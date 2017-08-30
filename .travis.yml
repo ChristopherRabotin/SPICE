@@ -6,7 +6,7 @@ rust:
 
 before_install:
   - sudo apt-get install csh
-  - (cd cspice_linux_gcc_64bit && csh makeall.csh)
+  - csh cspice_linux_gcc_64bit/makeall.csh
   - (cd cspice_linux_gcc_64bit/lib && ln -s cspice.a libcspice.a)
 
 matrix:
