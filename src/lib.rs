@@ -9,7 +9,7 @@ macro_rules! c_str {
 }
 #[allow(dead_code)]
 mod raw {
-    include!(concat!(env!("OUT_DIR"), "/cspice_bindings.rs"));
+    include!(concat!(env!("OUT_DIR"), "/spice_bindings.rs"));
 }
 
 #[cfg(test)]
