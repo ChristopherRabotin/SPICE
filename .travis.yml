@@ -6,8 +6,8 @@ rust:
 
 before_install:
   - sudo apt-get install csh
-  - cd cspice_linux_gcc_64bit && csh makeall.csh
-  - ln -s cspice_linux_gcc_64bit/lib/cspice.a cspice_linux_gcc_64bit/lib/libcspice.a
+  - (cd cspice_linux_gcc_64bit && csh makeall.csh)
+  - (cd cspice_linux_gcc_64bit/lib && ln -s cspice.a libcspice.a)
 
 matrix:
   allow_failures:
