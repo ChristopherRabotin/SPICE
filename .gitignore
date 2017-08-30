@@ -2,5 +2,6 @@
 **/*.rs.bk
 Cargo.lock
 /cspice_linux_gcc_64bit/doc/
-/cspice_linux_gcc_64bit/exe/
+/cspice_linux_gcc_64bit/exe/*
+!/cspice_linux_gcc_64bit/exe/.i_exist
 /cspice_linux_gcc_64bit/lib/*.a
