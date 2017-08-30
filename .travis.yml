@@ -5,7 +5,7 @@ rust:
   - nightly
 
 before_install:
-  - apt-get install csh
+  - sudo apt-get install csh
   - cd cspice_linux_gcc_64bit && csh makeall.csh
 
 matrix:
