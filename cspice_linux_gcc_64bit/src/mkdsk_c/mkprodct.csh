@@ -37,7 +37,7 @@
 #         them and add their objects to locallib.a.  Create a C main
 #         program file from the uniform CSPICE main program main.x.
 #         Compile this main program and link its object with locallib.a,
-#         ../../lib/cspice.a and ../../lib/csupport.a. The output 
+#         ../../lib/libcspice.a and ../../lib/csupport.a. The output 
 #         executables have an empty extension.  The executables are
 #         placed in the "exe" directory in the tree above.
 #         
@@ -254,7 +254,7 @@ if ( $status == 0 ) then
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
                                           locallib.a           \
                                           ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
+                                          ../../lib/libcspice.a   \
                                           $TKLINKOPTIONS    
 
          \rm $TARGET
@@ -267,7 +267,7 @@ if ( $status == 0 ) then
          $TKCOMPILER    $TKCOMPILEOPTIONS $TARGET
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
                                           ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
+                                          ../../lib/libcspice.a   \
                                          $TKLINKOPTIONS
  
          \rm $TARGET

@@ -198,7 +198,7 @@ if ( $status == 0 ) then
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
                                           locallib.a           \
                                           ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
+                                          ../../lib/libcspice.a   \
                                           $TKLINKOPTIONS    
 
          \rm $TARGET
@@ -211,7 +211,7 @@ if ( $status == 0 ) then
          $TKCOMPILER    $TKCOMPILEOPTIONS $TARGET
          $TKCOMPILER -o $EXECUT           $MAINOBJ             \
                                           ../../lib/csupport.a \
-                                          ../../lib/cspice.a   \
+                                          ../../lib/libcspice.a   \
                                          $TKLINKOPTIONS
  
          \rm $TARGET
