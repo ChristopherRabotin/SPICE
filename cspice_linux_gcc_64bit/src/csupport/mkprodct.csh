@@ -188,7 +188,7 @@ echo " "
 #   Determine a provisional LIBRARY name.
 #
    foreach item ( `pwd` )
-      set LIBRARY = "../lib/"$item:t
+      set LIBRARY = "../../lib/"$item:t
    end
 
 #
