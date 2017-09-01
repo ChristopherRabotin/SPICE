@@ -10,10 +10,12 @@ mod raw {
 #[macro_use]
 pub mod macros;
 pub mod errors;
+
+
 #[cfg(test)]
 mod tests {
-    use std::ffi::CString;
-    use std::ffi::CStr;
+    use std::ffi::CString; // needed for c_str macro
+    use errors::{ignore, has_failed, latest};
 
     #[test]
     fn constants() {
@@ -23,27 +25,25 @@ mod tests {
 
     #[test]
     fn errors() {
-        use errors::{ignore, has_failed};
         ignore();
         assert_eq!(has_failed(), false);
         unsafe {
-            ::raw::sigerr_c(c_str!("some error this is really long"));
-            let short_err_msg = CString::new("").unwrap().into_raw();
-            ::raw::getmsg_c(c_str!("SHORT"), 40, short_err_msg);
-            assert_eq!(
-                CStr::from_ptr(short_err_msg).to_string_lossy(),
-                "some error this is really"
-            );
+            ::raw::setmsg_c(c_str!("some full traceback kinda thing"));
+            ::raw::sigerr_c(c_str!("some error type"));
         }
         assert_eq!(has_failed(), true);
+        let err = latest().unwrap();
+        assert_eq!(err.short, "some error type");
+        assert_eq!(err.long, "some full traceback kinda thing");
     }
 
     #[test]
     fn load_kernel() {
+        ignore();
+        assert_eq!(has_failed(), false);
         unsafe {
-            ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
             ::raw::furnsh_c(c_str!("krnl"));
-            assert_eq!(::raw::failed_c(), 1);
         }
+        assert_eq!(has_failed(), true);
     }
 }
