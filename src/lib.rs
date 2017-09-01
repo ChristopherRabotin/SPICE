@@ -10,12 +10,14 @@ mod raw {
 #[macro_use]
 pub mod macros;
 pub mod errors;
+pub mod datetime;
 
 
 #[cfg(test)]
 mod tests {
     use std::ffi::CString; // needed for c_str macro
     use errors::{ignore, has_failed, latest};
+    use datetime::EphemerisTime;
 
     #[test]
     fn constants() {
@@ -45,5 +47,11 @@ mod tests {
             ::raw::furnsh_c(c_str!("krnl"));
         }
         assert_eq!(has_failed(), true);
+    }
+
+    #[test]
+    fn et() {
+        let mut et = EphemerisTime::from_et(-527644192.5403653);
+        panic!("{:?}", et.as_iso());
     }
 }
