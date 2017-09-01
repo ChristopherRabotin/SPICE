@@ -23,10 +23,10 @@ mod tests {
 
     #[test]
     fn errors() {
-        use errors::ignore;
+        use errors::{ignore, has_failed};
         ignore();
+        assert_eq!(has_failed(), false);
         unsafe {
-            assert_eq!(::raw::failed_c(), 0);
             ::raw::sigerr_c(c_str!("some error this is really long"));
             let short_err_msg = CString::new("").unwrap().into_raw();
             ::raw::getmsg_c(c_str!("SHORT"), 40, short_err_msg);
@@ -34,8 +34,8 @@ mod tests {
                 CStr::from_ptr(short_err_msg).to_string_lossy(),
                 "some error this is really"
             );
-            assert_eq!(::raw::failed_c(), 1);
         }
+        assert_eq!(has_failed(), true);
     }
 
     #[test]
