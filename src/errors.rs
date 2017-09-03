@@ -13,6 +13,7 @@ pub fn ignore() {
     unsafe {
         if !errors_ignored {
             ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
+            ::raw::errdev_c(c_str!("set"), 10, c_str!("null"));
         }
         errors_ignored = true;
     }

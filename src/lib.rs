@@ -25,19 +25,23 @@ mod tests {
         assert_eq!(::raw::SPICEFALSE, 0);
     }
     /*
+UGH: I'm blaming this on SPICE. Generating a SPICE error and trying to read it does not work.
+SPICE complains about not having any modules loaded, but SpiceyPy has that same tests and I
+guess it works?
     #[test]
     fn errors() {
         ignore();
         assert_eq!(has_failed(), false);
         unsafe {
-            ::raw::setmsg_c(c_str!("some full traceback kinda thing"));
-            ::raw::sigerr_c(c_str!("some error type"));
+            ::raw::setmsg_c(c_str!("some error occured"));
+            ::raw::sigerr_c(c_str!("error"));
         }
+        assert_eq!(has_failed(), true);
         let err = latest().unwrap();
-        assert_eq!(err.short, "some error type");
-        assert_eq!(err.long, "some full traceback kinda thing");
-    }*/
-
+        assert_eq!(err.short, "error");
+        assert_eq!(err.long, "some error occured");
+    }
+*/
     #[test]
     fn ephemeris_time() {
         let mut et = EphemerisTime::from_et(-527644192.5403653);
