@@ -39,11 +39,15 @@ mod tests {
     }*/
 
     #[test]
-    fn et() {
+    fn ephemeris_time() {
         let mut et = EphemerisTime::from_et(-527644192.5403653);
         match et.as_iso() {
-            Err(e) => println!("ERRORED = {:?}", e),
-            Ok(val) => println!("OK = {:?}", val),
+            Err(e) => panic!("ERRORED = {:?}", e),
+            Ok(val) => assert_eq!("1983 APR 13 12:09:14.2740000", val),
+        };
+        match et.as_julian() {
+            Err(e) => panic!("ERRORED = {:?}", e),
+            Ok(val) => assert_eq!(2445438.0064152, val),
         }
     }
 }
