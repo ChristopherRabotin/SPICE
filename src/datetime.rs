@@ -1,8 +1,9 @@
 extern crate chrono;
 
 use self::chrono::prelude::DateTime;
-use std::ffi::CStr;
 use errors::{ignore, latest, SPICEError};
+use std::ffi::CStr;
+use std::env;
 use std::ffi::CString; // needed for c_str macro
 
 /// EphemerisTime is the ET as defined in NAIF SPICE's
@@ -25,10 +26,18 @@ impl EphemerisTime {
             krnl_loaded: false,
         }
     }
+    // TODO: Move this into Kernels
     fn load_time_kernel(&mut self) {
         if !self.krnl_loaded {
+            /*println!("pwd = {:?}", env::current_exe());
+            match env::var("SPICE_KERNELS") {
+                Ok(val) => unsafe {
+                    ::raw::furnsh_c(c_str!(val + "/naif0012.tls"));
+                },
+                Err(e) => panic!("couldn't interpret SPICE_KERNELS: {}", e),
+            }*/
             unsafe {
-                ::raw::furnsh_c(c_str!("data/kernels/naif0012.tls"));
+                ::raw::furnsh_c(c_str!("naif0012.tls"));
             }
             self.krnl_loaded = true;
         }
