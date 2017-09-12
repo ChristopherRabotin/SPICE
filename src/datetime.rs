@@ -3,9 +3,7 @@ extern crate chrono;
 use self::chrono::prelude::NaiveDateTime;
 use datetime::chrono::format::ParseError;
 use errors::{ignore, latest, SPICEError};
-use kernels;
 use std::ffi::CStr;
-use std::env;
 use std::ffi::CString; // needed for c_str macro
 
 /// EphemerisTime is the ET as defined in NAIF SPICE's

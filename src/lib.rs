@@ -1,3 +1,4 @@
+
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
@@ -7,16 +8,13 @@ mod raw {
     include!(concat!(env!("OUT_DIR"), "/spice_bindings.rs"));
 }
 
+extern crate chrono;
+
 #[macro_use]
 pub mod macros;
 pub mod errors;
 pub mod datetime;
 pub mod kernels;
-
-
-extern crate chrono;
-#[macro_use]
-extern crate lazy_static;
 
 #[cfg(test)]
 mod tests {
