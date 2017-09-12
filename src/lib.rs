@@ -45,7 +45,7 @@ mod tests {
     #[test]
     fn ephemeris_time() {
         use chrono::prelude::{NaiveDate, NaiveDateTime};
-        let mut et = EphemerisTime::from_et(-527644192.5403653);
+        let et = EphemerisTime::from_et(-527644192.5403653);
         match et.as_iso() {
             Err(e) => panic!("ERRORED = {:?}", e),
             Ok(val) => assert_eq!("1983 APR 13 12:09:14.274000", val),
@@ -62,6 +62,7 @@ mod tests {
                 assert_eq!(dt, val)
             }
         }
+        ::kernels::unload("naif0012.tls");
     }
 
 }

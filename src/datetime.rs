@@ -15,10 +15,6 @@ pub struct EphemerisTime {
     krnl_loaded: bool, // Will be moved to kernel.rs later
 }
 
-/*
-pub fn et2utc_c(et: SpiceDouble, format: *mut ConstSpiceChar,
-                prec: SpiceInt, lenout: SpiceInt, utcstr: *mut SpiceChar);
-                */
 impl EphemerisTime {
     pub fn from_et(et: f64) -> EphemerisTime {
         EphemerisTime {
@@ -26,21 +22,7 @@ impl EphemerisTime {
             krnl_loaded: false,
         }
     }
-    /*
-    // TODO: Move this into Kernels
-    // TODO: Make this immutable by changing the loaded kernel mutability in the Kernel module
-    fn load_time_kernel(&mut self) {
-        if !self.krnl_loaded {
-            match env::var("SPICE_KERNELS") {
-                Ok(val) => unsafe {
-                    ::raw::furnsh_c(c_str!(val + "/naif0012.tls"));
-                },
-                Err(e) => panic!("couldn't interpret SPICE_KERNELS: {}", e),
-            }
-            self.krnl_loaded = true;
-        }
-    }
-*/
+
     fn convert(&self, format: &'static str) -> Result<String, SPICEError> {
         ignore();
         //self.load_time_kernel();
@@ -59,11 +41,11 @@ impl EphemerisTime {
         }
     }
 
-    pub fn as_iso(&mut self) -> Result<String, SPICEError> {
+    pub fn as_iso(&self) -> Result<String, SPICEError> {
         self.convert("C")
     }
 
-    pub fn as_julian(&mut self) -> Result<f64, SPICEError> {
+    pub fn as_julian(&self) -> Result<f64, SPICEError> {
         match self.convert("J") {
             Err(err) => Err(err),
             Ok(julian_str) => {;
@@ -74,19 +56,10 @@ impl EphemerisTime {
             }
         }
     }
-    pub fn as_datetime(&mut self) -> Result<NaiveDateTime, ParseError> {
+    pub fn as_datetime(&self) -> Result<NaiveDateTime, ParseError> {
         return NaiveDateTime::parse_from_str(
             self.as_iso().unwrap().as_str(),
             "%Y %b %d %H:%M:%S%.6f",
         );
     }
-}
-
-#[cfg(test)]
-mod tests {
-    /*#[test]
-    fn et() {
-        let et = EphemerisTime { et: -527644192.5403653 };
-        println!("{:?}", et.as_iso());
-    }*/
 }
