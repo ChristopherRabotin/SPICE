@@ -11,9 +11,12 @@ mod raw {
 pub mod macros;
 pub mod errors;
 pub mod datetime;
+pub mod kernels;
 
 
 extern crate chrono;
+#[macro_use]
+extern crate lazy_static;
 
 #[cfg(test)]
 mod tests {

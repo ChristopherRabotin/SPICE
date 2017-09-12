@@ -3,6 +3,7 @@ extern crate chrono;
 use self::chrono::prelude::NaiveDateTime;
 use datetime::chrono::format::ParseError;
 use errors::{ignore, latest, SPICEError};
+use kernels;
 use std::ffi::CStr;
 use std::env;
 use std::ffi::CString; // needed for c_str macro
@@ -27,6 +28,7 @@ impl EphemerisTime {
             krnl_loaded: false,
         }
     }
+    /*
     // TODO: Move this into Kernels
     // TODO: Make this immutable by changing the loaded kernel mutability in the Kernel module
     fn load_time_kernel(&mut self) {
@@ -40,10 +42,11 @@ impl EphemerisTime {
             self.krnl_loaded = true;
         }
     }
-
-    fn convert(&mut self, format: &'static str) -> Result<String, SPICEError> {
+*/
+    fn convert(&self, format: &'static str) -> Result<String, SPICEError> {
         ignore();
-        self.load_time_kernel();
+        //self.load_time_kernel();
+        ::kernels::load("naif0012.tls");
         let mut utc_cstr: [::raw::SpiceChar; 30] = [0; 30];
         let utc_str: String;
         unsafe {
@@ -74,7 +77,6 @@ impl EphemerisTime {
         }
     }
     pub fn as_datetime(&mut self) -> Result<NaiveDateTime, ParseError> {
-        //let as_str = self.as_iso().unwrap();
         return NaiveDateTime::parse_from_str(
             self.as_iso().unwrap().as_str(),
             "%Y %b %d %H:%M:%S%.6f",
