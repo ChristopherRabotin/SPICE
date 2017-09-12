@@ -24,12 +24,10 @@ mod tests {
         assert_eq!(::raw::SPICETRUE, 1);
         assert_eq!(::raw::SPICEFALSE, 0);
     }
-    /*
-UGH: I'm blaming this on SPICE. Generating a SPICE error and trying to read it does not work.
-SPICE complains about not having any modules loaded, but SpiceyPy has that same tests and I
-guess it works?
+
     #[test]
     fn errors() {
+        use std::ffi::CString;
         use errors::{ignore, has_failed, latest};
         ignore();
         assert_eq!(has_failed(), false);
@@ -42,7 +40,7 @@ guess it works?
         assert_eq!(err.short, "error");
         assert_eq!(err.long, "some error occured");
     }
-*/
+
     #[test]
     fn ephemeris_time() {
         use chrono::prelude::{NaiveDate, NaiveDateTime};
@@ -64,4 +62,5 @@ guess it works?
             }
         }
     }
+
 }
