@@ -1,6 +1,7 @@
 extern crate chrono;
 
-use self::chrono::prelude::DateTime;
+use self::chrono::prelude::NaiveDateTime;
+use datetime::chrono::format::ParseError;
 use errors::{ignore, latest, SPICEError};
 use std::ffi::CStr;
 use std::env;
@@ -46,7 +47,7 @@ impl EphemerisTime {
         let mut utc_cstr: [::raw::SpiceChar; 30] = [0; 30];
         let utc_str: String;
         unsafe {
-            ::raw::et2utc_c(self.et, c_str!(format), 9, 29, utc_cstr.as_mut_ptr());
+            ::raw::et2utc_c(self.et, c_str!(format), 6, 29, utc_cstr.as_mut_ptr());
             utc_str = CStr::from_ptr(utc_cstr.as_ptr())
                 .to_string_lossy()
                 .into_owned();
@@ -72,7 +73,13 @@ impl EphemerisTime {
             }
         }
     }
-    //    pub fn as_datetime(&self) -> DateTime {}
+    pub fn as_datetime(&mut self) -> Result<NaiveDateTime, ParseError> {
+        //let as_str = self.as_iso().unwrap();
+        return NaiveDateTime::parse_from_str(
+            self.as_iso().unwrap().as_str(),
+            "%Y %b %d %H:%M:%S%.6f",
+        );
+    }
 }
 
 #[cfg(test)]

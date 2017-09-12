@@ -13,10 +13,10 @@ pub mod errors;
 pub mod datetime;
 
 
+extern crate chrono;
+
 #[cfg(test)]
 mod tests {
-    use std::ffi::CString; // needed for c_str macro
-    use errors::{ignore, has_failed, latest};
     use datetime::EphemerisTime;
 
     #[test]
@@ -30,6 +30,7 @@ SPICE complains about not having any modules loaded, but SpiceyPy has that same 
 guess it works?
     #[test]
     fn errors() {
+        use errors::{ignore, has_failed, latest};
         ignore();
         assert_eq!(has_failed(), false);
         unsafe {
@@ -44,14 +45,23 @@ guess it works?
 */
     #[test]
     fn ephemeris_time() {
+        use chrono::prelude::{NaiveDate, NaiveDateTime};
         let mut et = EphemerisTime::from_et(-527644192.5403653);
         match et.as_iso() {
             Err(e) => panic!("ERRORED = {:?}", e),
-            Ok(val) => assert_eq!("1983 APR 13 12:09:14.2740000", val),
+            Ok(val) => assert_eq!("1983 APR 13 12:09:14.274000", val),
         };
         match et.as_julian() {
             Err(e) => panic!("ERRORED = {:?}", e),
-            Ok(val) => assert_eq!(2445438.0064152, val),
+            Ok(val) => assert_eq!(2445438.006415, val),
+        }
+        match et.as_datetime() {
+            Err(e) => panic!("ERRORED: {:?}", e),
+            Ok(val) => {
+                let dt: NaiveDateTime =
+                    NaiveDate::from_ymd(1983, 4, 13).and_hms_milli(12, 9, 14, 274);
+                assert_eq!(dt, val)
+            }
         }
     }
 }
