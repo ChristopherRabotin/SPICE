@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get install csh
 
 before_script:
-  - (cd cspice_linux_gcc_64bit && csh makeall.csh && cd lib && mv cspice.a libcspice.a)
+  - (cd cspice && csh makeall.csh && cd lib && mv cspice.a libcspice.a)
 
 matrix:
   allow_failures:
