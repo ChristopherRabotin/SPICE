@@ -20,7 +20,6 @@ pub fn load(krnl: &'static str) -> Option<SPICEError> {
     }
 }
 
-
 /// Unloads a kernel
 pub fn unload(krnl: &'static str) -> Option<SPICEError> {
     ignore();
