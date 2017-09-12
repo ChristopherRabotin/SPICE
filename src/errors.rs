@@ -7,9 +7,14 @@ pub struct SPICEError {
     pub long: String,
 }
 
+static mut errors_ignored: bool = false;
+
 pub fn ignore() {
     unsafe {
-        ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
+        if !errors_ignored {
+            ::raw::erract_c(c_str!("set"), 10, c_str!("return"));
+        }
+        errors_ignored = true;
     }
 }
 

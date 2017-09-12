@@ -9,3 +9,4 @@ build = "build.rs"
 bindgen = "0.26.3"
 
 [dependencies]
+chrono = "0.4"
