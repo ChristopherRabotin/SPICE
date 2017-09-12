@@ -8,7 +8,7 @@ fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
     // Tell cargo to tell rustc to link the system bzip2
     // shared library.
-    println!("cargo:rustc-link-search=native=cspice_linux_gcc_64bit/lib");
+    println!("cargo:rustc-link-search=native=cspice/lib");
     println!("cargo:rustc-link-lib=static=cspice");
     //println!("cargo:rustc-flags=-L cspice_linux_gcc_64bit/lib");
 
