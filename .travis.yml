@@ -5,7 +5,7 @@ rust:
   - nightly
 
 env:
-  - SPICE_KERNELS=./data/kernels/
+  - SPICE_KERNELS=data/kernels/
 
 before_install:
   - sudo apt-get install csh
