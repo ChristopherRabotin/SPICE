@@ -11,21 +11,18 @@ use std::ffi::CString; // needed for c_str macro
 // reading. As such, the Terrestrial Barycentric Time is stored in EphemerisTime.et.
 #[derive(Clone, Copy, Debug)]
 pub struct EphemerisTime {
-    et: f64,
-    krnl_loaded: bool, // Will be moved to kernel.rs later
+    et: f64
 }
 
 impl EphemerisTime {
     pub fn from_et(et: f64) -> EphemerisTime {
         EphemerisTime {
-            et: et,
-            krnl_loaded: false,
+            et: et
         }
     }
 
     fn convert(&self, format: &'static str) -> Result<String, SPICEError> {
         ignore();
-        //self.load_time_kernel();
         ::kernels::load("naif0012.tls");
         let mut utc_cstr: [::raw::SpiceChar; 30] = [0; 30];
         let utc_str: String;

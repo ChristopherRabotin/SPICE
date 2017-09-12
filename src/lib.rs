@@ -32,14 +32,17 @@ mod tests {
         use errors::{ignore, has_failed, latest};
         ignore();
         assert_eq!(has_failed(), false);
-        unsafe {
+        let err = ::kernels::load("non_existant_kernel.tls").unwrap();
+        /*unsafe {
             ::raw::setmsg_c(c_str!("some error occured"));
             ::raw::sigerr_c(c_str!("error"));
         }
         assert_eq!(has_failed(), true);
         let err = latest().unwrap();
         assert_eq!(err.short, "error");
-        assert_eq!(err.long, "some error occured");
+        assert_eq!(err.long, "some error occured");*/
+        assert_eq!(has_failed(), true);
+        println!("{:?}", err);
     }
 
     #[test]
